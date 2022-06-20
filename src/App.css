@@ -20,7 +20,6 @@
   width: 500px;
   border: 5px solid aqua;
   overflow: hidden;
-
 }
 
 .input-text::placeholder {
@@ -33,7 +32,6 @@
   width: 200px;
   height: 50px;
   background-color: aqua;
-  border: none;
   margin-top: 20px;
   font-size: large;
   font-weight: bold;
