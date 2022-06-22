@@ -1,16 +1,12 @@
 .App {
   text-align: center;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .input-form {
   display: flex;
-  /* justify-content: center; */
   flex-direction: column;
   align-items: center;
 }
@@ -19,20 +15,47 @@
   height: 300px;
   width: 500px;
   border: 5px solid aqua;
-  overflow: hidden;
 }
 
 .input-text::placeholder {
-  color:coral;
+  color: #80ed99;
   font-size: 2em;
   text-align: center;
 }
 
 .input-button {
-  width: 200px;
+  /* width: 200px;
   height: 50px;
-  background-color: aqua;
+  background-color: aqua; */
   margin-top: 20px;
   font-size: large;
   font-weight: bold;
+  min-width: 200px;
+  height: 50px;
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  border-radius: 5px;
+  border: none;
+  background: #80ed99;
+  box-shadow: 0 5px #57cc99;
+}
+
+.input-button:hover {
+  box-shadow: 0 3px #57cc99;
+  top: 1px;
+}
+
+.input-button:active {
+  box-shadow: 0 0 #57cc99;
+  top: 5px;
+}
+
+.result {
+  width: 500px;
 }
