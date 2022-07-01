@@ -1,22 +1,20 @@
 // HAS ACCESS TO THE CURRENT PAGE -> NEED TO SEND THE SELECTED TEXT TO THE EXTENSION
 
-// async function setPageBackgroundColor() {
-//   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-//   chrome.scripting.executeScript({
-//     target: { tabId: tab.id },
-//     function: function changeColor() {
-//       chrome.storage.sync.get("color", ({ color }) => {
-//         document.body.style.backgroundColor = color;
-//         // const customBtn = document.createElement('button');
-//         // customBtn.style.backgroundColor = 'red';
-//         // document.body.appendChild(customBtn);
-//       });
-//     },
-//   });
-// };
-let result;
+// let result = '';
+// sending message to the background.js file
 document.body.addEventListener('mouseup', () => {
   console.log(window.getSelection().toString());
-  result = window.getSelection().toString();
-  chrome.runtime.sendMessage({ msg: result });
+  // result = window.getSelection().toString();
+  chrome.runtime.sendMessage({ msg: window.getSelection().toString() });
 });
+
+// const createCustomBtn = () => {
+//   let node = document.getElementsByClassName('G-tF')[0];
+//   let btn = document.createElement('div');
+//   btn.style.backgroundColor = 'red';
+//   btn.style.width = '20px';
+//   btn.style.height = '20px';
+//   node.appendChild(btn);
+// };
+
+// createCustomBtn();

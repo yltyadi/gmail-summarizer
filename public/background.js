@@ -1,8 +1,9 @@
 // STORES INFO THAT CAN BE ACCESS BY APP.JS
 
 let color = '#80ed99';
-let textToSum;
+let textToSum = '';
 
+// getting message from contentscript file 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   // if (message.type == 'from_content_script') {
   //   messageQueue.push(message);
@@ -16,5 +17,5 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.sync.set({ color });
-  console.log('Default background color set to %cgreen', `color: ${color}`);
+  // console.log('Default background color set to %cgreen', `color: ${color}`);
 });
