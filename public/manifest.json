@@ -1,6 +1,6 @@
 {
   "name": "Gmail Summarizer",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Summarize emails to save your time!",
   "manifest_version": 3,
   "author": "Adi Yeltay",
@@ -15,21 +15,12 @@
   "icons": {
     "16": "email.png",
     "48": "email.png",
-    "128": "email.png"
+    "128": "email.png" 
   },
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*"],
+      "matches": ["*://mail.google.com/*"],
       "js": ["contentScript.js"]
     }
-  ], 
-  "commands": {
-    "_execute_action": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+F",
-        "mac": "MacCtrl+Shift+F"
-      },
-      "description": "Opens the extension"
-    }
-  }
+  ]
 }

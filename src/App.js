@@ -4,12 +4,18 @@ import {useEffect, useState} from 'react';
 
 function App() {
   const [inputValue, setInputValue] = useState("");
-  const [result, setResult] = useState("Result");
+  const [result, setResult] = useState("Summary will be here...");
   const [text, setText] = useState("");
   // getting selected text from storage in background.js file and assigning it to the text state
   chrome.storage.sync.get("textToSum", ({ textToSum }) => {
     setText(textToSum);
   });
+
+  chrome.storage.sync.set({ result }); // sending result to storage to access it with my custom button
+
+  // unpack handleSummarizeText here not in function
+  // send to backgroundjs and store in storage
+  // then access it in testFunc below
 
   useEffect(async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -19,16 +25,40 @@ function App() {
       function: function addBtn() {
         // checking if the button exists to prevent from creating another button 
         if (!document.getElementById('custom-btn')) {
-          let node = document.getElementsByClassName('G-tF'); // an array of elements with the given class name
-          let btn = document.createElement('div');
+          let node = document.querySelector('.gb_qe.gb_oe'); // G-tF is inside the single letter header
+          let btn = document.createElement('button');
           btn.setAttribute('id', 'custom-btn');
-          btn.style.backgroundColor = '#57cc99';
-          btn.style.width = '20px';
-          btn.style.height = '20px';
-          btn.style.borderRadius = '5px';
-          for (let i = 0; i < node.length; i++) {
-            node[i].appendChild(btn);
-          }
+          btn.style.backgroundColor = '#80ed99';
+          btn.style.width = '44px';
+          btn.style.height = '44px';
+          btn.style.border = 'none';
+          btn.style.borderRadius = '10px';
+          btn.style.marginRight = '20px';
+          node.insertBefore(btn, node.children[0]);
+          btn.addEventListener('click', () => {
+            // create result div once the button is clicked
+            let resultDiv;
+            if (!document.getElementById('custom-result')) {
+              let node = document.querySelector('.a3s.aiL ');
+              resultDiv = document.createElement('div')
+              resultDiv.setAttribute('id', 'custom-result');
+              resultDiv.style.width = '98%';
+              resultDiv.style.minHeight = '20px';
+              resultDiv.style.overflow = 'hidden';
+              resultDiv.style.backgroundColor = '#80ed99';
+              resultDiv.style.borderRadius = '15px';
+              resultDiv.style.textAlign = 'justify';
+              resultDiv.style.padding = '5px';
+              resultDiv.style.marginBottom = '5px';
+              resultDiv.style.color = '#021311';
+              resultDiv.style.fontWeight = 'bold';
+              node.insertBefore(resultDiv, node.children[0]);
+            }
+            chrome.storage.sync.get("result", ({ result }) => {
+              console.log(result);
+              resultDiv.innerHTML = result;
+            });
+          });
         }
       }
     });
@@ -43,7 +73,7 @@ function App() {
 
     const formdata = new FormData();
     formdata.append("key", "6b08e93b581ef423fd9001035f019564");
-    formdata.append("txt", text); // passing selected text from background.js
+    formdata.append("txt", text); // passing selected text from background.js OR inputValue
     formdata.append("sentences", "3");
     
     const requestOptions = {
@@ -58,11 +88,6 @@ function App() {
       .catch(error => setResult('error', error));
   };
 
-  // const handleMouseUp = (event) => {
-  //   event.preventDefault();
-  //   console.log(`Selected text: ${window.getSelection().toString()}`);
-  // };
-
   async function setPageBackgroundColor(event) {
     event.preventDefault();
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -75,14 +100,6 @@ function App() {
       },
     });
   };
-
-  // const summarizeSelectedText = (event) => {
-  //   event.preventDefault();
-  //   chrome.storage.sync.get("textToSum", ({ textToSum }) => {
-  //     console.log(textToSum);
-  //     setText(textToSum);
-  //   });
-  // };
 
   return (
     <div className="App">
@@ -97,13 +114,10 @@ function App() {
           onChange={handleTextToSummarize}>
         </textarea>
         <button className="input-button" type='submit' onClick={handleSummarizeText}>Summarize</button>
-        // <button className="input-button" type='submit' onClick={summarizeSelectedText}>Selected</button>
         <button className="input-button" type='submit' onClick={setPageBackgroundColor}>MAKE GREEN</button>
       </form> */}
       <button className="input-button" onClick={handleSummarizeText}>Summarize</button>
       <h3 className='result'>{result}</h3>
-      {/* <h3>{text}</h3> */}
-      {/* <h3 onMouseUp={handleMouseUp}>Text aoiea wgoiw egwogi wgoiw gwg wog</h3> */}
     </div>
   );
 }
