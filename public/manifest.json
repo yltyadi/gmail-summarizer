@@ -1,26 +1,34 @@
 {
-  "name": "Gmail Summarizer",
-  "version": "0.0.1",
-  "description": "Summarize emails to save your time!",
+  "name": "summarize.me — Gmail Summarizer",
+  "version": "0.0.2",
+  "description": "A chrome extension that shortens long emails into concise summaries.",
   "manifest_version": 3,
   "author": "Adi Yeltay",
-  "permissions": ["storage", "activeTab", "scripting"],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
   "background": {
     "service_worker": "background.js"
   },
-  "action":{
-      "default_popup": "index.html",
-      "default_title": "Gmail Summarizer"
-  }, 
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Gmail Summarizer"
+  },
   "icons": {
     "16": "email.png",
     "48": "email.png",
-    "128": "email.png" 
+    "128": "email.png"
   },
   "content_scripts": [
     {
-      "matches": ["*://mail.google.com/*"],
-      "js": ["contentScript.js"]
+      "matches": [
+        "*://mail.google.com/*"
+      ],
+      "js": [
+        "contentScript.js"
+      ]
     }
   ]
 }
