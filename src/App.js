@@ -7,17 +7,20 @@ function App() {
   const [result, setResult] = useState("Summary will be here...");
   const [text, setText] = useState("");
   // getting selected text from storage in background.js file and assigning it to the text state
-  chrome.storage.sync.get("textToSum", ({ textToSum }) => {
-    setText(textToSum);
-  });
+  // chrome.storage.sync.get("textToSum", ({ textToSum }) => {
+  //   setText(textToSum);
+  // });
 
-  chrome.storage.sync.set({ result }); // sending result to storage to access it with my custom button
-
-  // unpack handleSummarizeText here not in function
-  // send to backgroundjs and store in storage
-  // then access it in testFunc below
+  // chrome.storage.sync.set({ result }); // sending result to storage to access it with my custom button
 
   useEffect(async () => {
+    // getting selected text from storage every time on reload
+    chrome.storage.sync.get("textToSum", ({ textToSum }) => {
+      setText(textToSum);
+    });
+    // sending result to storage when user opens the popup
+    chrome.storage.sync.set({ result });
+
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     
     chrome.scripting.executeScript({
@@ -123,18 +126,6 @@ function App() {
   return (
     <div className="App">
       <h1>summarize.me</h1>
-      {/* <form className='input-form'>
-        <textarea 
-          value={inputValue} 
-          className="input-text" 
-          type='text' 
-          placeholder='put your text here' 
-          data-gramm="false" 
-          onChange={handleTextToSummarize}>
-        </textarea>
-        <button className="input-button" type='submit' onClick={handleSummarizeText}>Summarize</button>
-        <button className="input-button" type='submit' onClick={setPageBackgroundColor}>MAKE GREEN</button>
-      </form> */}
       <button className="input-button" onClick={handleSummarizeText}>Summarize</button>
       <h3 className='result'>{result}</h3>
     </div>
